@@ -30,10 +30,13 @@ print('gpoo22 = TRUE')
 mqtt_user = os.environ["SMUGGLER_MQTT_USER"]
 mqtt_host = os.environ["SMUGGLER_MQTT_HOST"]
 mqtt_port = os.environ["SMUGGLER_MQTT_PORT"]
-smuggler_topic = os.environ["SMUGGLER_TOPIC"]
+#smuggler_topic = os.environ["SMUGGLER_TOPIC"]
+pits_topic = "owntracks/pits_detection/pits_detector_01"
 mqtt_password = os.environ["SMUGGLER_MQTT_PASSWORD"]
-mqtt_client_id = os.environ["SMUGGLER_MQTT_CLIENT_ID"]
-mqtt_posting_delay = int(os.environ["SMUGGLER_MQTT_POSTING_DELAY"])
+#mqtt_client_id = os.environ["SMUGGLER_MQTT_CLIENT_ID"]
+mqtt_client_id = "PD"
+#mqtt_posting_delay = int(os.environ["SMUGGLER_MQTT_POSTING_DELAY"])
+mqtt_posting_delay = 8
 ftp_host = os.environ["SMUGGLER_FTP_HOST"]
 ftp_user = os.environ["SMUGGLER_FTP_USER"]
 ftp_password = os.environ["SMUGGLER_FTP_PASSWORD"]
@@ -256,8 +259,9 @@ def get_gps():
             utc_time = resp.split(',')[2]
             latitude = resp.split(',')[3]
             longitude = resp.split(',')[4]
-        gps_info = dict(client_id=mqtt_client_id, utc_time=utc_time, latitude=latitude,
-                        longitude=longitude)
+        gps_info = dict(tid=mqtt_client_id, utc_time=utc_time, lat=latitude,
+                        lon=longitude, _type="location", batt=100, acc=8, p=100, vac=10,
+                        t="u", conn="w", tst=int(round(time.time() * 1000)), alt=106)
     if utc_time == '':
         gps_init()
     return gps_info
@@ -307,7 +311,7 @@ mqttc.loop_start()
 time.sleep(1)
 
 while True:
-    photo_name = take_photo()
+#    photo_name = take_photo()
     #    photo_name = ''  # change it with above line
     info_str = get_gps()
     sensor_str = subscribe.simple(local_mqtt_topic, hostname=local_mqtt_host, auth=local_auth, retained=False,
@@ -322,15 +326,15 @@ while True:
         print("it was not a ascii-encoded unicode string")
     if json_string != '' and is_json(json_string):
         d = json.loads(json_string)
-        info_str.update(d)
+#        info_str.update(d)
     print('d=', d)
     time.sleep(1)
-    info_str['photo'] = 'http://korotach.com/smuggler_photos/01/' + photo_name
-    info_str['uploaded_%'] = sim7000_ftp_file_upload(photo_path + photo_name, photo_name)
+#    info_str['photo'] = 'http://korotach.com/smuggler_photos/01/' + photo_name
+#    info_str['uploaded_%'] = sim7000_ftp_file_upload(photo_path + photo_name, photo_name)
     print('--------------------')
     print(info_str)
     print('--------------------')
-    sim7000_mqtt_publish(smuggler_topic, json.dumps(info_str))
+    sim7000_mqtt_publish(pits_topic, json.dumps(info_str))
     for i in range(mqtt_posting_delay):
         print('sleeping for ', mqtt_posting_delay - i, ' sec')
         time.sleep(1)
