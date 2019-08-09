@@ -74,12 +74,12 @@ void funtion_test(){
    delay(1000);
    Serial.println("The funtion is Get GPS..."); 
    testGPS();
-   Serial.println("The funtion is Dial Voice Call..."); 
-   delay(1000);
-   DialVoiceCall();
-   Serial.println("The funtion is Send SMS ..."); 
-   delay(1000);
-   SendTextMessage();
+//   Serial.println("The funtion is Dial Voice Call..."); 
+//   delay(1000);
+//   DialVoiceCall();
+//   Serial.println("The funtion is Send SMS ..."); 
+//   delay(1000);
+//   SendTextMessage();
    Serial.println("This function is submit a HTTP request...");
    delay(1000);
    TCP_GPRS();
