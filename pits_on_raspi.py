@@ -259,9 +259,16 @@ def get_gps():
             utc_time = resp.split(',')[2]
             latitude = resp.split(',')[3]
             longitude = resp.split(',')[4]
-        gps_info = dict(tid=mqtt_client_id, lat=float(latitude),
-                        lon=float(longitude), _type="location", batt=98, acc=8, p=100, vac=10,
-                        t="u", conn="w", tst=int(utc_time.split('.')[0]), alt=106)
+        lat = 0.0
+        lon = 0.0
+        tst = 0
+        if latitude != "" and longitude != "" and utc_time != "":
+            lat = float(latitude)
+            lon = float(longitude)
+            tst = int(utc_time.split('.'))[0]
+        gps_info = dict(tid=mqtt_client_id, lat=lat,
+                        lon=lon, _type="location", batt=98, acc=8, p=100, vac=10,
+                        t="u", conn="w", tst=tst, alt=106)
 #tst=int(round(time.time() * 1000)
     if utc_time == '':
         gps_init()
