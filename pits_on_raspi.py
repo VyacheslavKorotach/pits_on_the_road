@@ -314,9 +314,10 @@ time.sleep(1)
 while True:
 #    photo_name = take_photo()
     #    photo_name = ''  # change it with above line
-    info_str = get_gps()
+#    info_str = get_gps()
     sensor_str = subscribe.simple(local_mqtt_topic, hostname=local_mqtt_host, auth=local_auth, retained=False,
                                   msg_count=1)
+    info_str = get_gps()
     #    info_str['humidity_%'], info_str['temperature_C'] = Adafruit_DHT.read_retry(sensor, sensor_pin)
     #    print(sensor_str)
     json_string = ''
@@ -327,7 +328,7 @@ while True:
         print("it was not a ascii-encoded unicode string")
     if json_string != '' and is_json(json_string):
         d = json.loads(json_string)
-#        info_str.update(d)
+        info_str.update(d)
     print('d=', d)
     time.sleep(1)
 #    info_str['photo'] = 'http://korotach.com/smuggler_photos/01/' + photo_name
