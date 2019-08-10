@@ -63,6 +63,8 @@ def on_connect(mqttc, obj, flags, rc):
 
 
 def on_message(mqttc, obj, msg):
+    print('-----------')
+    print('here is message on mqtt')
     print(msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
 
 
