@@ -330,7 +330,7 @@ while True:
 #    photo_name = take_photo()
     #    photo_name = ''  # change it with above line
 #    info_str = get_gps()
-    sensor_str = subscribe.simple(local_mqtt_topic, hostname=local_mqtt_host, auth=local_auth, retained=False, msg_count=1, keepalive=10)
+    sensor_str = subscribe.simple(local_mqtt_topic, hostname=local_mqtt_host, auth=local_auth, retained=False, msg_count=1)
     info_str = get_gps()
     #    info_str['humidity_%'], info_str['temperature_C'] = Adafruit_DHT.read_retry(sensor, sensor_pin)
     #    print(sensor_str)
@@ -352,7 +352,8 @@ while True:
     print('--------------------')
 #    sim7000_mqtt_publish(pits_topic, json.dumps(info_str))
     pub_str = json.dumps(info_str)
-    sim7000_mqtt_publish(pits_topic, pub_str.replace(" ",""))
+    if sensor_str.find("pit_detected") != -1:
+        sim7000_mqtt_publish(pits_topic, pub_str.replace(" ",""))
     for i in range(mqtt_posting_delay):
         print('sleeping for ', mqtt_posting_delay - i, ' sec')
         time.sleep(1)
