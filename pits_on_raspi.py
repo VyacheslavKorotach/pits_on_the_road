@@ -268,6 +268,7 @@ def get_gps():
             lat = float(latitude)
             lon = float(longitude)
             tst = int(utc_time.split('.')[0])
+            tst = int(time.time())
         gps_info = dict(tid=mqtt_client_id, lat=lat,
                         lon=lon, _type="location", batt=98, acc=8, p=100, vac=10,
                         t="u", conn="w", tst=tst, alt=106)
