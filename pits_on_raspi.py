@@ -66,7 +66,9 @@ def on_connect(mqttc, obj, flags, rc):
 def on_message(mqttc, obj, msg):
     print('-----------')
     print('here is message on mqtt')
+    print('-----------')
     print(msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
+    sensor_str = str(msg.payload)
 
 
 def on_publish(mqttc, obj, mid):
@@ -320,15 +322,15 @@ mqttc.on_publish = on_publish
 mqttc.on_subscribe = on_subscribe
 mqttc.connect(local_mqtt_host, 1883, 60)
 local_auth = {'username': local_mqtt_user, 'password': local_mqtt_password}
-mqttc.loop_start()
+#mqttc.loop_start()
+mqttc.loop_forever()
 time.sleep(1)
 
 while True:
 #    photo_name = take_photo()
     #    photo_name = ''  # change it with above line
 #    info_str = get_gps()
-    sensor_str = subscribe.simple(local_mqtt_topic, hostname=local_mqtt_host, auth=local_auth, retained=False,
-                                  msg_count=1)
+#    sensor_str = subscribe.simple(local_mqtt_topic, hostname=local_mqtt_host, auth=local_auth, retained=False, msg_count=1)
     info_str = get_gps()
     #    info_str['humidity_%'], info_str['temperature_C'] = Adafruit_DHT.read_retry(sensor, sensor_pin)
     #    print(sensor_str)
