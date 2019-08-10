@@ -352,7 +352,7 @@ while True:
     print('--------------------')
 #    sim7000_mqtt_publish(pits_topic, json.dumps(info_str))
     pub_str = json.dumps(info_str)
-    if sensor_str.find("pit_detected") != -1:
+    if pub_str.find("pit_detected") != -1:
         sim7000_mqtt_publish(pits_topic, pub_str.replace(" ",""))
     for i in range(mqtt_posting_delay):
         print('sleeping for ', mqtt_posting_delay - i, ' sec')
