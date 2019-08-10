@@ -3,6 +3,7 @@ import time
 import json
 import serial
 import datetime
+#import calendar
 import re
 import Adafruit_DHT
 import RPi.GPIO as GPIO
@@ -269,6 +270,7 @@ def get_gps():
             lon = float(longitude)
             tst = int(utc_time.split('.')[0])
             tst = int(time.time())
+#            tst = calendar.timegm(time.gmtime())
         gps_info = dict(tid=mqtt_client_id, lat=lat,
                         lon=lon, _type="location", batt=98, acc=8, p=100, vac=10,
                         t="u", conn="w", tst=tst, alt=106)
